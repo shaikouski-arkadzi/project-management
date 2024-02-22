@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useEffect } from 'react';
 
 export const ProjectContext = createContext({
   selectedProjectId: undefined,
@@ -83,10 +83,20 @@ export default function ProjectContextProvider( {children} ) {
     projectReducer,
     {
       selectedProjectId: undefined,
-      projects: [],
-      tasks: [],
+      projects: JSON.parse(localStorage.getItem('projects')) || [],
+      tasks: JSON.parse(localStorage.getItem('tasks')) || [],
     }
   );
+
+  useEffect(() => {
+    if (projectsState.tasks.length > 0) localStorage.setItem('tasks', JSON.stringify(projectsState.tasks));
+       else localStorage.removeItem('tasks')
+  }, [projectsState.tasks])
+
+  useEffect(() => {
+    if (projectsState.projects.length > 0) localStorage.setItem('projects', JSON.stringify(projectsState.projects));
+      else localStorage.removeItem('projects')
+  }, [projectsState.projects])
 
   const handleAddTask = text => {
     projectDispatch({
