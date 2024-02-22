@@ -1,9 +1,11 @@
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
+import { ProjectContext } from '../store/store';
 
 import Input from './Input.jsx';
 import Modal from './Modal.jsx';
 
-const NewProject = ({ onAdd, onCancel }) => {
+const NewProject = () => {
+  const { addProject, cancelAddProject } = useContext(ProjectContext);
   const modal = useRef();
 
   const title = useRef();
@@ -24,7 +26,7 @@ const NewProject = ({ onAdd, onCancel }) => {
       return;
     }
 
-    onAdd({
+    addProject({
       title: enteredTitle,
       description: enteredDescription,
       dueDate: enteredDueDate,
@@ -47,7 +49,7 @@ const NewProject = ({ onAdd, onCancel }) => {
           <li>
             <button
               className="text-stone-800 hover:text-stone-950"
-              onClick={onCancel}
+              onClick={cancelAddProject}
             >
               Cancel
             </button>

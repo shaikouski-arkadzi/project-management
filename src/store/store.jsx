@@ -4,6 +4,7 @@ export const ProjectContext = createContext({
   selectedProjectId: undefined,
   projects: [],
   tasks: [],
+  selectedProject:{},
   addTask: () => {},
   deleteTask: () => {},
   selectProject: () => {},
@@ -100,10 +101,15 @@ export default function ProjectContextProvider( {children} ) {
     });
   }
 
+  const selectedProject = projectsState.projects.find(
+    project => project.id === projectsState.selectedProjectId
+  );
+
   const contexValue = {
     selectedProjectId: projectsState.selectedProjectId,
     projects: projectsState.projects,
     tasks: projectsState.tasks,
+    selectedProject,
     addTask: handleAddTask,
     deleteTask: handleDeleteTask,
     selectProject: handleSelectProject,
